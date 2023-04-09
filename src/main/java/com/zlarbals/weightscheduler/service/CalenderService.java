@@ -16,6 +16,8 @@ public class CalenderService {
 
     public void createCalenderByYear(int year){
 
+        calenderRepository.deleteAllByYear(year);
+
         for(int month=1;month<=12;month++){
             LocalDate standardDate = LocalDate.of(year,month,1);
             LocalDate firstDateByMonth = standardDate.withDayOfMonth(1);
