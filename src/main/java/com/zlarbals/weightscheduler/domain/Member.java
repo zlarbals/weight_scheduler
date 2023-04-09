@@ -1,14 +1,25 @@
 package com.zlarbals.weightscheduler.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Entity
-public class Member {
+@Table(name = "WS_MEMBER")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(of = "memNo",callSuper = true)
+public class Member extends BaseTimeEntity{
 
     @Id
-    @GeneratedValue
-    private Long id;
+    @Column(name = "MEMBER_NO")
+    private String memNo;
+
+    @Column(name = "EMAIL")
+    private String email;
+
+    @Column(name="NICKNAME")
+    private String nickname;
 
 }

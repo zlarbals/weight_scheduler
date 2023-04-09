@@ -1,14 +1,30 @@
 package com.zlarbals.weightscheduler.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
-public class DailyWeight {
+@Table(name = "WS_DAILY_WEIGHT")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(of = "seq",callSuper = true)
+public class DailyWeight extends BaseTimeEntity{
 
     @Id
-    @GeneratedValue
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long seq;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MEMBER_NO")
+    private Member member;
+
+    @Column(name = "WEIGHT_DAY")
+    private LocalDate date;
+
+    @Column(name = "WEIGHT_VALUE")
+    private float weight;
 
 }
