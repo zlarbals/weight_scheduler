@@ -1,6 +1,7 @@
 package com.zlarbals.weightscheduler.schedule;
 
 import com.zlarbals.weightscheduler.service.CalenderService;
+import com.zlarbals.weightscheduler.service.DailyWeightService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 
 @Component
 @RequiredArgsConstructor
-public class CalenderScheduler {
+public class BatchScheduler {
 
     private final CalenderService calenderService;
 
@@ -26,5 +27,4 @@ public class CalenderScheduler {
             e.printStackTrace();
         }
     }
-
 }
