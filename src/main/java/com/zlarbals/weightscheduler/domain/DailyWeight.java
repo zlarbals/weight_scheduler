@@ -1,8 +1,6 @@
 package com.zlarbals.weightscheduler.domain;
 
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,6 +9,9 @@ import java.time.LocalDate;
 @Table(name = "WS_DAILY_WEIGHT")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = "seq",callSuper = true)
+@Getter
+@Builder
+@AllArgsConstructor
 public class DailyWeight extends BaseTimeEntity{
 
     @Id
@@ -25,6 +26,6 @@ public class DailyWeight extends BaseTimeEntity{
     private LocalDate date;
 
     @Column(name = "WEIGHT_VALUE")
-    private float weight;
+    private Float weight;
 
 }

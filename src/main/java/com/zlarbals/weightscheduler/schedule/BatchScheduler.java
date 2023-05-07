@@ -14,6 +14,8 @@ public class BatchScheduler {
 
     private final CalenderService calenderService;
 
+    private final DailyWeightService dailyWeightService;
+
     /**
      * 매년 12월 20일 새벽 2시
      * 내년 연단위 캘린더 생성
@@ -27,4 +29,16 @@ public class BatchScheduler {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 매달 20일 새벽 3시
+     * 등록된 모든 유저의 다음달 DailyWeight 생성.
+     */
+    @Scheduled(cron = "0 0 3 20 * *")
+    public void createNextMonthDailyWeight(){
+        LocalDate nextMonthDate = LocalDate.now().plusMonths(1);
+        dailyWeightService.createDailyWeight(nextMonthDate);
+    }
+
+
 }
