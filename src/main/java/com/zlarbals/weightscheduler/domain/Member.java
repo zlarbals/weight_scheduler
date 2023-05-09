@@ -2,6 +2,7 @@ package com.zlarbals.weightscheduler.domain;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Table(name = "WS_MEMBER")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = "memNo",callSuper = true)
+@Getter
 public class Member extends BaseTimeEntity{
 
     @Id

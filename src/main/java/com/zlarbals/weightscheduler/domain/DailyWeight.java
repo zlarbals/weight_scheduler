@@ -6,7 +6,14 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "WS_DAILY_WEIGHT")
+@Table(name = "WS_DAILY_WEIGHT",
+uniqueConstraints = {
+        @UniqueConstraint(
+                name = "MEMBER_NO_DATE_UNIQUE",
+                columnNames = {"MEMBER_NO","WEIGHT_DAY"}
+
+        )
+})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = "seq",callSuper = true)
 @Getter
