@@ -20,15 +20,14 @@ public class DailyWeightService {
 
     public void createDailyWeight(LocalDate date) {
         List<Member> memberList = memberRepository.findAll();
-        LocalDate firstDateByMonth = date.withDayOfMonth(1);
-        LocalDate lastDateByMonth = date.withDayOfMonth(date.lengthOfMonth());
+        LocalDate firstDateOfMonth = date.withDayOfMonth(1);
+        LocalDate lastDateOfMonth = date.withDayOfMonth(date.lengthOfMonth());
 
-        memberList.stream().forEach(member -> {
-            for (LocalDate iterDate = firstDateByMonth; iterDate.isBefore(lastDateByMonth) || iterDate.isEqual(lastDateByMonth);iterDate = iterDate.plusDays(1)){
+        memberList.forEach(member -> {
+            for (LocalDate currentDate = firstDateOfMonth; currentDate.isBefore(lastDateOfMonth) || currentDate.isEqual(lastDateOfMonth);currentDate = currentDate.plusDays(1)){
                 DailyWeight dailyWeight = DailyWeight.builder()
                         .member(member)
-                        .date(iterDate)
-                        .weight(null)
+                        .date(currentDate)
                         .build();
 
                 dailyWeightRepository.save(dailyWeight);
