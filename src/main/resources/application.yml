@@ -1,3 +1,0 @@
-scheduler:
-  batch-time:
-    create-calender: '0 0 2 20 12 *'

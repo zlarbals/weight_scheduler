@@ -21,7 +21,7 @@ public class BatchScheduler {
      * 내년 연단위 캘린더 생성
      */
     @Scheduled(cron = "${scheduler.batch-time.create-calender}")
-    public void createCalenderByNextYear(){
+    public void createNextYearCalender(){
         try{
             LocalDate nextYearDate = LocalDate.now().plusYears(1);
             calenderService.createCalenderByYear(nextYearDate.getYear());
@@ -34,7 +34,7 @@ public class BatchScheduler {
      * 매달 20일 새벽 3시
      * 등록된 모든 유저의 다음달 DailyWeight 생성.
      */
-    @Scheduled(cron = "0 0 3 20 * *")
+    @Scheduled(cron = "${scheduler.batch-time.create-daily-weight}")
     public void createNextMonthDailyWeight(){
         LocalDate nextMonthDate = LocalDate.now().plusMonths(1);
         dailyWeightService.createDailyWeight(nextMonthDate);
