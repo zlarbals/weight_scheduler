@@ -6,6 +6,7 @@ import com.zlarbals.weightscheduler.dto.ResponseResult;
 import com.zlarbals.weightscheduler.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -21,11 +22,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RetrofitService {
 
-    private final MemberRepository memberRepository;
+    @Value("${environment.inner-connect.iam.base-url}")
+    private String IAC_BASE_URL;
+
+    @Value("${environment.inner-connect.iam.auth-key}")
+    private String IAC_AUTH_KEY;
 
     public List<MemberSyncResponseDto> sendMemberSyncApi(){
-        RetrofitApiService retrofitApiService = getRetrofitApiService("http://localhost:8061");
-        Call<ResponseResult<List<MemberSyncResponseDto>>> call = retrofitApiService.syncIacMember("1234");
+        RetrofitApiService retrofitApiService = getRetrofitApiService(IAC_BASE_URL);
+        Call<ResponseResult<List<MemberSyncResponseDto>>> call = retrofitApiService.syncIacMember(IAC_AUTH_KEY);
 
         List<MemberSyncResponseDto> memberSyncResponseDtoList = new ArrayList<>();
         try {
@@ -38,7 +43,7 @@ public class RetrofitService {
                 log.error("API 요청 실패");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("API 요청 중 예외 발생",e);
         }
 
         return memberSyncResponseDtoList;
