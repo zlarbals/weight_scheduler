@@ -13,6 +13,8 @@ import org.springframework.util.ObjectUtils;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,19 +35,21 @@ public class DailyWeightService {
         LocalDate firstDateOfMonth = date.withDayOfMonth(1);
         LocalDate lastDateOfMonth = date.withDayOfMonth(date.lengthOfMonth());
 
-        memberList.forEach(member -> {
-            for (LocalDate currentDate = firstDateOfMonth; currentDate.isBefore(lastDateOfMonth) || currentDate.isEqual(lastDateOfMonth);currentDate = currentDate.plusDays(1)){
-                DailyWeight dailyWeight = DailyWeight.builder()
-                        .member(member)
-                        .date(currentDate)
-                        .build();
+        List<LocalDate> standardLocalDateListOfYearAndMonth = new ArrayList<>();
+        for(LocalDate currentDate = firstDateOfMonth; !currentDate.isAfter(lastDateOfMonth); currentDate = currentDate.plusDays(1)){
+            standardLocalDateListOfYearAndMonth.add(currentDate);
+        }
 
-                try {
-                    dailyWeightRepository.save(dailyWeight);
-                }catch (DataIntegrityViolationException e){
-                    log.error("DailyWeight 중복생성 에러 {} {}",member.getEmail(),currentDate);
-                }
-            }
+        memberList.forEach(member -> {
+            List<DailyWeight> existingDailyWeightList = dailyWeightRepository.findDailyWeightsByMemberAndDateIn(member, standardLocalDateListOfYearAndMonth);
+            Set<LocalDate> existingLocalDateList = existingDailyWeightList.stream().map(DailyWeight::getDate).collect(Collectors.toSet());
+
+            List<DailyWeight> dailyWeightListToSave = standardLocalDateListOfYearAndMonth.stream()
+                    .filter(standardLocalDate -> !existingLocalDateList.contains(standardLocalDate))
+                    .map(standardLocalDate -> DailyWeight.builder().member(member).date(standardLocalDate).build())
+                    .collect(Collectors.toList());
+
+            dailyWeightRepository.saveAll(dailyWeightListToSave);
         });
     }
 }
