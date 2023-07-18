@@ -40,7 +40,7 @@ public class BatchScheduler {
     @Scheduled(cron = "${scheduler.batch-time.create-daily-weight}")
     public void createNextMonthDailyWeight(){
         LocalDate nextMonthDate = LocalDate.now().plusMonths(1);
-        dailyWeightService.createDailyWeight(nextMonthDate);
+        dailyWeightService.createDailyWeight(nextMonthDate,null);
     }
 
     /**

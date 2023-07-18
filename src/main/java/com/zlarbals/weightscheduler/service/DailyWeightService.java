@@ -8,8 +8,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,8 +23,13 @@ public class DailyWeightService {
 
     private final MemberRepository memberRepository;
 
-    public void createDailyWeight(LocalDate date) {
-        List<Member> memberList = memberRepository.findAll();
+    public void createDailyWeight(LocalDate date, Long memberSeq) {
+        List<Member> memberList;
+        if(ObjectUtils.isEmpty(memberSeq)){
+            memberList = memberRepository.findAll();
+        }else{
+            memberList = List.of(memberRepository.findById(memberSeq).orElseThrow(()->new IllegalArgumentException("존재하지 않는 member 입니다.")));
+        }
         LocalDate firstDateOfMonth = date.withDayOfMonth(1);
         LocalDate lastDateOfMonth = date.withDayOfMonth(date.lengthOfMonth());
 

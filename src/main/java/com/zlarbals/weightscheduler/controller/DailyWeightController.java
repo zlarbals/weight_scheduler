@@ -14,9 +14,10 @@ public class DailyWeightController {
     private final DailyWeightService dailyWeightService;
 
     @PostMapping("")
-    public void createNextMonthDailyWeight(@RequestParam int year,@RequestParam int month){
+    public void createNextMonthDailyWeight(@RequestParam int year,@RequestParam int month, @RequestParam(required = false) Long memberSeq){
         LocalDate targetDate = LocalDate.of(year,month,1);
-        dailyWeightService.createDailyWeight(targetDate);
+        System.out.println("memberSeq = " + memberSeq);
+        dailyWeightService.createDailyWeight(targetDate,memberSeq);
     }
 
 }
