@@ -36,7 +36,7 @@ public class DailyWeightService {
                 try {
                     dailyWeightRepository.save(dailyWeight);
                 }catch (DataIntegrityViolationException e){
-                    log.error("DailyWeight 중복생성 에러 {} {}",member.getMemNo(),currentDate);
+                    log.error("DailyWeight 중복생성 에러 {} {}",member.getEmail(),currentDate);
                 }
             }
         });

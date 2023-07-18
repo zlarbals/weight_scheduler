@@ -19,3 +19,10 @@ scheduler:
   batch-time:
     create-calender: '0 0 2 20 12 *'
     create-daily-weight: '0 0 3 20 * *'
+    sync-iac-member: '0 0 3 * * *'
+
+environment:
+  inner-connect:
+    iam:
+      base-url: http://localhost:8061
+      auth-key: 1234
